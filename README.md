@@ -1,4 +1,4 @@
-# Herbal Purchase Value Dashboard
+# Herblytics
 
 ![CI Quality](https://img.shields.io/badge/Status-Active-success?style=flat-square)
 [![Vue](https://img.shields.io/badge/Vue-3.5+-4FC08D?logo=vue.js)](https://vuejs.org/)
@@ -66,8 +66,8 @@ Ensure your environment meets the following requirements:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/suradet-ps/sabot-herb-inventory.git
-cd sabot-herb-inventory
+git clone https://github.com/suradet-ps/herb-lytics.git
+cd herb-lytics
 ```
 
 ### 2. Install dependencies
