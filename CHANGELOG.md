@@ -1,3 +1,9 @@
+## [1.1.10](https://github.com/suradet-ps/sabot-herb-inventory/compare/v1.1.9...v1.1.10) (2026-06-16)
+
+### 📦 Dependency Updates
+
+* **deps:** update dependency lint-staged to v17 ([#16](https://github.com/suradet-ps/sabot-herb-inventory/issues/16)) ([488ee76](https://github.com/suradet-ps/sabot-herb-inventory/commit/488ee76d1aa2970fadb8c972d7c64fe7eeae9282))
+
 ## [1.1.9](https://github.com/suradet-ps/sabot-herb-inventory/compare/v1.1.8...v1.1.9) (2026-04-27)
 
 ### 🐛 Bug Fixes
