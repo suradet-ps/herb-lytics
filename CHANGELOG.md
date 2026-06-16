@@ -1,3 +1,9 @@
+## [1.1.11](https://github.com/suradet-ps/herb-lytics/compare/v1.1.10...v1.1.11) (2026-06-16)
+
+### 📝 Documentation
+
+* rename repository from sabot-herb-inventory to herb-lytics ([3c04bbd](https://github.com/suradet-ps/herb-lytics/commit/3c04bbdb481650d7ccf0defd6d9fb720ea0b1394))
+
 ## [1.1.10](https://github.com/suradet-ps/herb-lytics/compare/v1.1.9...v1.1.10) (2026-06-16)
 
 ### 📦 Dependency Updates
