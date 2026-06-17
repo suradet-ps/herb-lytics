@@ -1,3 +1,9 @@
+## [1.1.12](https://github.com/suradet-ps/herb-lytics/compare/v1.1.11...v1.1.12) (2026-06-17)
+
+### 📦 Dependency Updates
+
+* **deps:** update dependency bun to v1.3.14 ([6fce186](https://github.com/suradet-ps/herb-lytics/commit/6fce186cae10c0e3394d5e649c26b8d1bf29f5f3))
+
 ## [1.1.11](https://github.com/suradet-ps/herb-lytics/compare/v1.1.10...v1.1.11) (2026-06-16)
 
 ### 📝 Documentation
