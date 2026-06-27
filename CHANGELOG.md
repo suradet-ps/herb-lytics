@@ -1,3 +1,9 @@
+## [1.1.14](https://github.com/suradet-ps/herb-lytics/compare/v1.1.13...v1.1.14) (2026-06-27)
+
+### 📦 Dependency Updates
+
+* **deps:** update actions/checkout action to v7 ([2686dd3](https://github.com/suradet-ps/herb-lytics/commit/2686dd30bd60d9078ce46fc5e560b5649b52fc36))
+
 ## [1.1.13](https://github.com/suradet-ps/herb-lytics/compare/v1.1.12...v1.1.13) (2026-06-17)
 
 ### 📦 Dependency Updates
