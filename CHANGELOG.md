@@ -1,3 +1,9 @@
+## [1.1.15](https://github.com/suradet-ps/herb-lytics/compare/v1.1.14...v1.1.15) (2026-07-02)
+
+### 📦 Dependency Updates
+
+* **deps:** update dependency @types/node to v26 ([8daa2fb](https://github.com/suradet-ps/herb-lytics/commit/8daa2fb63f7cdaa08c86147a4164cefbc4b6294e))
+
 ## [1.1.14](https://github.com/suradet-ps/herb-lytics/compare/v1.1.13...v1.1.14) (2026-06-27)
 
 ### 📦 Dependency Updates
