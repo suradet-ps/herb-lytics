@@ -1,3 +1,5 @@
+## [1.1.16](https://github.com/suradet-ps/herb-lytics/compare/v1.1.15...v1.1.16) (2026-07-05)
+
 ## [1.1.15](https://github.com/suradet-ps/herb-lytics/compare/v1.1.14...v1.1.15) (2026-07-02)
 
 ### 📦 Dependency Updates
