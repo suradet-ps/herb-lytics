@@ -17,10 +17,11 @@ use wasm_bindgen::prelude::wasm_bindgen;
 
 #[wasm_bindgen(start)]
 pub fn start() {
-    set_panic_hook();
-    init_with_level(Level::Debug).ok();
+  set_panic_hook();
+  init_with_level(Level::Debug).ok();
 
-    mount_to_body(|| {
-        view! { <App /> }
-    });
+  mount_to_body(|| {
+    crate::stores::dashboard::install();
+    view! { <App /> }
+  });
 }

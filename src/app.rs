@@ -1,10 +1,14 @@
 use leptos::prelude::*;
+use leptos_meta::*;
+
+use crate::views::dashboard_view::DashboardView;
 
 #[component]
 pub fn App() -> impl IntoView {
-    view! {
-        <div class="p-8 text-2xl font-bold">
-            "herb-lytics · Leptos WASM boot ok"
-        </div>
-    }
+  provide_meta_context();
+
+  view! {
+      <Title text="รายงานมูลค่าการจัดซื้อยาสมุนไพร | Herb-lytics" />
+      <DashboardView />
+  }
 }

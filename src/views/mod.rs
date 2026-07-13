@@ -1,1 +1,1 @@
-// views module tree
+pub mod dashboard_view;
