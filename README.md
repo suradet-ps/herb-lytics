@@ -121,7 +121,7 @@ key in `localStorage` from the browser console.
 
 - **Build Command**: `bun install --frozen-lockfile && bun run build:css && rustup target add wasm32-unknown-unknown && cargo install trunk --locked && trunk build --release`
 - **Output Directory**: `dist`
-- **Environment Variable**: set `GOOGLE_API_URL` as a build-time var so it is baked into the WASM.
+- **Environment Variable**: set `GOOGLE_API_URL` (or `VITE_GOOGLE_API_URL`) as a build-time var so it is baked into the WASM. The Apps Script `/exec` endpoint issues a 302 redirect to `script.googleusercontent.com`; the CSP already allows both hosts.
 - Deep links use an SPA rewrite to `index.html`; `.wasm` is served as `application/wasm`.
 
 ---
