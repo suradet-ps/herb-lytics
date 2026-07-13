@@ -1,0 +1,4 @@
+# Keep default rustfmt style. This file exists so `cargo fmt --all --check` is stable.
+edition = "2024"
+tab_spaces = 2
+max_width = 100

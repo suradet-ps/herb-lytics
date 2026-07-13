@@ -1,52 +1,16 @@
 {
   "name": "herb-lytics",
-  "type": "module",
   "version": "1.1.17",
   "private": true,
+  "type": "module",
+  "description": "Herbal purchase value dashboard — Rust (Leptos CSR) frontend. Tailwind is compiled to CSS via the CLI; the app logic is WASM.",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc -b && vite build",
-    "preview": "vite preview",
-    "type-check": "vue-tsc --noEmit",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "prepare": "husky"
-  },
-  "dependencies": {
-    "@tailwindcss/vite": "^4.2.2",
-    "axios": "^1.15.0",
-    "chart.js": "^4.5.1",
-    "pinia": "^3.0.4",
-    "tailwindcss": "^4.2.2",
-    "vue": "^3.5.32",
-    "vue-chartjs": "^5.3.3",
-    "vue-router": "^5.0.0",
-    "zod": "^4.3.6"
+    "build:css": "tailwindcss -i ./tailwind.css -o ./public/styles/main.css",
+    "watch:css": "tailwindcss -i ./tailwind.css -o ./public/styles/main.css --watch",
+    "dev": "make dev",
+    "build": "make build"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^6.7.3",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/commit-analyzer": "^13.0.1",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^12.0.6",
-    "@semantic-release/npm": "^13.1.5",
-    "@semantic-release/release-notes-generator": "^14.1.0",
-    "@types/chart.js": "^4.0.1",
-    "@types/node": "^26.0.0",
-    "@vitejs/plugin-vue": "^6.0.6",
-    "conventional-changelog-conventionalcommits": "^10.0.0",
-    "eslint": "^9.39.4",
-    "eslint-plugin-format": "^2.0.0",
-    "husky": "^9.1.7",
-    "lint-staged": "^17.0.0",
-    "semantic-release": "^25.0.3",
-    "typescript": "^5.9.3",
-    "vite": "^8.0.0",
-    "vue-tsc": "^3.2.6"
-  },
-  "lint-staged": {
-    "*.{js,ts,jsx,tsx,vue,md,json,mjs,cjs,css}": [
-      "eslint --fix"
-    ]
+    "@tailwindcss/cli": "^4.2.2"
   }
 }

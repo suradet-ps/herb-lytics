@@ -28,3 +28,13 @@ dist-ssr
 
 # TypeScript incremental build cache
 *.tsbuildinfo
+
+# Rust / Leptos
+target/
+dist/
+
+# Generated Tailwind CSS (produced by `make css` / `bun run build:css`)
+public/styles/main.css
+
+# Local API config override for the WASM build
+.env.local
