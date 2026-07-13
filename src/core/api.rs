@@ -33,16 +33,16 @@ pub async fn fetch_herb_summary(year: i32) -> AppResult<HerbSummary> {
     ));
   }
 
-    envelope
-        .data
-        .ok_or_else(|| AppError::other("API returned no data"))
+  envelope
+    .data
+    .ok_or_else(|| AppError::other("API returned no data"))
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    const SAMPLE: &str = r#"{
+  const SAMPLE: &str = r#"{
         "status": "success",
         "data": {
             "year": 2568,
@@ -54,23 +54,23 @@ mod tests {
         }
     }"#;
 
-    #[test]
-    fn parses_success_envelope() {
-        let envelope: ApiEnvelope = serde_json::from_str(SAMPLE).expect("valid json");
-        assert_eq!(envelope.status, "success");
-        let data = envelope.data.expect("has data");
-        assert_eq!(data.year, 2568);
-        assert_eq!(data.grand_total, 123456.0);
-        assert_eq!(data.herbs.len(), 2);
-        assert_eq!(data.herbs[0].name, "กระชาย");
-        assert_eq!(data.herbs[0].total_value, 50000.0);
-    }
+  #[test]
+  fn parses_success_envelope() {
+    let envelope: ApiEnvelope = serde_json::from_str(SAMPLE).expect("valid json");
+    assert_eq!(envelope.status, "success");
+    let data = envelope.data.expect("has data");
+    assert_eq!(data.year, 2568);
+    assert_eq!(data.grand_total, 123456.0);
+    assert_eq!(data.herbs.len(), 2);
+    assert_eq!(data.herbs[0].name, "กระชาย");
+    assert_eq!(data.herbs[0].total_value, 50000.0);
+  }
 
-    #[test]
-    fn rejects_error_status() {
-        let bad = r#"{"status":"error","message":"no data"}"#;
-        let envelope: ApiEnvelope = serde_json::from_str(bad).expect("valid json");
-        assert_eq!(envelope.status, "error");
-        assert!(envelope.data.is_none());
-    }
+  #[test]
+  fn rejects_error_status() {
+    let bad = r#"{"status":"error","message":"no data"}"#;
+    let envelope: ApiEnvelope = serde_json::from_str(bad).expect("valid json");
+    assert_eq!(envelope.status, "error");
+    assert!(envelope.data.is_none());
+  }
 }

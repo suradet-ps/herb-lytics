@@ -959,3 +959,39 @@ Follow this order — each step compiles/passes before moving on.
 *Generated from the `tome` reference migration. Keep this file in the repo root
 of each project you migrate and update the table in §0 whenever you introduce a
 new cross-language pattern.*
+
+---
+
+## herb-lytics — applied adaptations
+
+This repo is the first migration that does **not** match the Supabase/Vite shape
+the guide was written for, so these deviations were applied:
+
+- **No Supabase.** The backend is a single **Google Apps Script** REST endpoint
+  (`?path=getHerbSummary&year={year}`) returning
+  `{ status, message?, data? }`. `core/config.rs` resolves the base URL from
+  `option_env!("GOOGLE_API_URL")` (build-time) with a `localStorage`
+  (`herb_lytics_api_url`) fallback. `core/api.rs` is the equivalent of the old
+  `herbs-service.ts` + `zod` validation.
+- **No auth / no router.** The app is a single protected-intranet dashboard, so
+  the entire `auth`/`postgrest`/`supabase` layer, Pinia stores, and
+  `leptos_router` were dropped. State is one `OnceLock` store
+  (`stores/dashboard.rs`) holding `RwSignal`s for the selected year, summary,
+  loading, and error.
+- **Chart.js → self-contained SVG.** `components/herb_chart.rs` renders the
+  top-10 bar chart as inline SVG (gradient + rotated labels + `<title>` tooltips)
+  instead of `vue-chartjs`/`chart.js`. This keeps the bundle 100% WASM with no
+  JS charting dependency and avoids `canvas` interop.
+- **Styling.** The original used **Tailwind v4** (not plain CSS). We kept it:
+  `tailwind.css` holds the `@theme` tokens and `@source "./src/**/*.rs"`, and the
+  CLI compiles it to `public/styles/main.css` (git-ignored, produced by
+  `bun run build:css` / `make css`). Trunk bundles the output.
+- **Formatting.** `Intl.NumberFormat` / `toLocaleDateString` are unavailable on
+  WASM, so `core/utils.rs` (number/currency) and `core/time.rs` (Thai fiscal
+  year + Thai date string) reimplement them.
+- **Tooling.** `Makefile` + a tailwind-only `package.json` wrap `trunk serve` /
+  `trunk build`. CI (`ci.yml`) runs the Rust gates; `vercel.json` ships `dist/`
+  as a static SPA (CSP allows `script.google.com` for the API).
+- **Tests.** `cargo test --lib` covers formatting helpers and the API envelope
+  parsing (the zod-equivalent), since the HTTP call itself needs the live
+  endpoint.
