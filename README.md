@@ -1,16 +1,17 @@
 # Herblytics
 
-![CI Quality](https://img.shields.io/badge/Status-Active-success?style=flat-square)
-[![Vue](https://img.shields.io/badge/Vue-3.5+-4FC08D?logo=vue.js)](https://vuejs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9+-3178C6?logo=typescript)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-7.0+-646CFF?logo=vite)](https://vitejs.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1+-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
-[![Bun](https://img.shields.io/badge/Bun-1.0+-000000?logo=bun)](https://bun.sh/)
+![CI](https://img.shields.io/badge/CI-Rust%20%2F%20Leptos-DEA584?style=flat-square)
+[![Rust](https://img.shields.io/badge/Rust-1.88+-000000?logo=rust)](https://www.rust-lang.org/)
+[![Leptos](https://img.shields.io/badge/Leptos-0.8-4FC08D)](https://leptos.dev/)
+[![Trunk](https://img.shields.io/badge/Trunk-0.21-646CFF)](https://trunkrs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 > **A data visualization dashboard for tracking and analyzing the procurement value of herbal medicines at Sabot Hospital.**
 
 This application provides actionable insights into purchasing trends, helping hospital staff and administrators identify key metrics such as total annual purchase value and top-performing herbal products.
+
+The frontend is compiled to **WebAssembly** with [Leptos](https://leptos.dev) (CSR) and bundled by [Trunk](https://trunkrs.dev). See [`MIGRATION.md`](./MIGRATION.md) for the full Vue → Rust migration guide.
 
 ---
 
@@ -18,85 +19,76 @@ This application provides actionable insights into purchasing trends, helping ho
 
 ### Data Visualization
 
-- **Interactive Charts**: Powered by **[Chart.js](https://www.chartjs.org/)**, visualize the top 10 herbal medicines by total purchase value.
-- **Dynamic Summaries**: Real-time summary cards displaying high-level metrics for the selected fiscal year.
+- **Interactive Charts**: A self-contained **SVG** bar chart (no JS charting dependency) shows the top 10 herbal medicines by total purchase value.
+- **Dynamic Summaries**: Summary cards displaying high-level metrics for the selected Thai fiscal year.
 
 ### Core Stack
 
-- **[Vue 3.5+](https://vuejs.org/)**: Utilizing the Composition API with `<script setup>` for concise and performant components.
-- **[TypeScript 5.9+](https://www.typescriptlang.org/)**: Configured for type safety and developer productivity.
-- **[Vite 7](https://vitejs.dev/)**: Next-generation frontend tooling with instant server start and lightning-fast HMR.
-- **[Tailwind CSS 4.1](https://tailwindcss.com/)**: Utility-first CSS framework for rapid UI development.
+- **[Rust 1.88+](https://www.rust-lang.org/)** (edition 2024) compiled to `wasm32-unknown-unknown`.
+- **[Leptos 0.8](https://leptos.dev/)** in CSR mode — `#[component]` functions instead of Vue SFCs.
+- **[Trunk](https://trunkrs.dev/)** as the bundler/dev server (replaces Vite).
+- **[Tailwind CSS 4](https://tailwindcss.com/)**: compiled to plain CSS via the CLI; class names are scanned from `src/**/*.rs`.
 
 ### Architecture
 
-- **[Pinia](https://pinia.vuejs.org/)**: Intuitive, type-safe state management for handling data fetching and filtering logic.
-- **Google Sheets Backend**: A lightweight, maintenance-free backend using **Google Apps Script** to serve data directly from Google Sheets.
-- **[Zod](https://zod.dev/)**: Schema declaration and validation to ensure data integrity from the API.
-
----
-
-## IDE Setup
-
-For the best experience, we recommend **[VS Code](https://code.visualstudio.com/)** with the following configuration:
-
-1.  **Install Extensions**:
-    - [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (formerly Volar)
-    - [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
-    - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-
-2.  **Workspace Settings**:
-    Ensure your editor is configured to auto-fix lint errors on save and use the workspace TypeScript version.
+- **OnceLock store**: a `Copy` struct of `RwSignal`s (`stores/dashboard.rs`) replaces Pinia.
+- **Google Apps Script backend**: a lightweight, maintenance-free backend serving data via `?path=getHerbSummary&year={year}`.
+- **`serde` validation**: the API envelope (`{ status, message?, data? }`) is parsed and validated in `core/api.rs`, replacing Zod.
 
 ---
 
 ## Prerequisites
 
-Ensure your environment meets the following requirements:
-
-| Requirement | Version | Note                                          |
-| :---------- | :------ | :-------------------------------------------- |
-| **Node.js** | `18+`   | Required for modern build tools.              |
-| **Bun**     | `1.0+`  | Preferred package manager (lockfile present). |
+| Requirement | Version | Note |
+| :---------- | :------ | :-- |
+| **Rust**    | `1.88+` | With the `wasm32-unknown-unknown` target (`rustup target add wasm32-unknown-unknown`). |
+| **Trunk**   | `0.21+` | `cargo install trunk --locked`. |
+| **Bun**     | `1.0+`  | Only used to compile Tailwind CSS (lockfile present). |
 
 ---
 
 ## Getting Started
 
-### 1. Clone the repository
-
 ```bash
+# 1. Clone
 git clone https://github.com/suradet-ps/herb-lytics.git
 cd herb-lytics
-```
 
-### 2. Install dependencies
-
-```bash
+# 2. Compile Tailwind CSS (watches src/**/*.rs in dev)
 bun install
+bun run watch:css      # or: make watch
+
+# 3. Start the dev server (in another terminal)
+make dev               # runs tailwind --watch + trunk serve
+# or simply:
+trunk serve
 ```
 
-### 3. Start development server
+The app is served at `http://127.0.0.1:3000/`.
+
+### Pointing at the API
+
+The Google Apps Script URL is read at build time from `GOOGLE_API_URL`:
 
 ```bash
-bun dev
+GOOGLE_API_URL="https://script.google.com/macros/s/XXXX/exec" trunk serve
 ```
 
-The application will be available at `http://localhost:5173/`.
-
-> **Note:** No environment variables are required for local development as the Google Apps Script API endpoint is public.
+For local development without rebuilding, set the `herb_lytics_api_url`
+key in `localStorage` from the browser console.
 
 ---
 
 ## Available Scripts
 
-| Script         | Description                               |
-| :------------- | :---------------------------------------- |
-| `bun dev`      | Start the development server with HMR.    |
-| `bun build`    | Run type-checks and build for production. |
-| `bun preview`  | Preview the production build locally.     |
-| `bun lint`     | Lint and format all files.                |
-| `bun lint:fix` | Auto-fix linting and formatting issues.   |
+| Command              | Description |
+| :------------------- | :---------- |
+| `make dev`           | Tailwind watch + `trunk serve`. |
+| `make build`         | `bun run build:css` then `trunk build --release`. |
+| `make check`         | `cargo check --target wasm32-unknown-unknown`. |
+| `make clippy`        | `cargo clippy` (wasm) with correctness/suspicious denied. |
+| `make fmt`           | `cargo fmt --all --check`. |
+| `make test`          | `cargo test --lib`. |
 
 ---
 
@@ -104,44 +96,43 @@ The application will be available at `http://localhost:5173/`.
 
 ```text
 .
-├── .vscode/             # VS Code workspace settings
 ├── src/
-│   ├── assets/          # Static assets
-│   ├── components/      # Reusable UI components
-│   ├── composables/     # Shared logic (Vue Composables)
-│   ├── router/          # Routing configuration
-│   ├── stores/          # Global state management (Pinia)
-│   ├── types/           # TypeScript type definitions
-│   ├── views/           # Page-level components
-│   ├── App.vue          # Root component
-│   └── main.ts          # Application entry point
-├── eslint.config.mjs    # ESLint configuration
-├── tailwind.config.js   # Tailwind CSS configuration (if applicable)
-├── tsconfig.json        # TypeScript configuration
-└── vite.config.ts       # Vite configuration
+│   ├── core/           # Pure logic: error, config, types, api, time, utils
+│   ├── stores/         # OnceLock singleton state (dashboard)
+│   ├── components/      # Leptos #[component]s (layout, cards, chart, table)
+│   ├── views/          # Page-level view (dashboard)
+│   ├── app.rs          # Root component + <meta> context
+│   └── lib.rs          # wasm-bindgen entry point
+├── public/
+│   └── styles/         # Tailwind-generated main.css (git-ignored, built from tailwind.css)
+├── tailwind.css        # Theme tokens + @source "./src/**/*.rs"
+├── Cargo.toml          # Leptos 0.8 CSR deps
+├── Trunk.toml          # Trunk config
+├── rust-toolchain.toml # stable + wasm32 target
+├── Makefile            # dev / build / check wrappers
+└── vercel.json         # Static SPA deploy (dist/)
 ```
 
 ---
 
 ## Deployment
 
-### Static Hosting (Vercel, Netlify, etc.)
+### Vercel (static SPA)
 
-This project builds a static SPA.
-
-1. **Build Command**: `bun build`
-2. **Output Directory**: `dist`
-3. **Node Version**: `18.x` or higher
+- **Build Command**: `bun install --frozen-lockfile && bun run build:css && rustup target add wasm32-unknown-unknown && cargo install trunk --locked && trunk build --release`
+- **Output Directory**: `dist`
+- **Environment Variable**: set `GOOGLE_API_URL` as a build-time var so it is baked into the WASM.
+- Deep links use an SPA rewrite to `index.html`; `.wasm` is served as `application/wasm`.
 
 ---
 
 ## Contributing
 
-1.  **Fork** the repository.
-2.  **Create** a feature branch: `git checkout -b feat/my-feature`.
-3.  **Commit** your changes: `git commit -m "feat: add amazing feature"`.
-4.  **Push** to the branch: `git push origin feat/my-feature`.
-5.  **Open** a Pull Request.
+1. **Fork** the repository.
+2. **Create** a feature branch: `git checkout -b feat/my-feature`.
+3. **Commit** your changes: `git commit -m "feat: add amazing feature"`.
+4. **Push** to the branch: `git push origin feat/my-feature`.
+5. **Open** a Pull Request.
 
 ---
 
