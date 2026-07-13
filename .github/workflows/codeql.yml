@@ -28,7 +28,7 @@ jobs:
           - language: actions
             build-mode: none
           - language: rust
-            build-mode: manual
+            build-mode: none
 
     steps:
       - name: Checkout repository
@@ -36,21 +36,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install Rust
-        if: matrix.language == 'rust'
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: wasm32-unknown-unknown
-
       - name: Initialize CodeQL
         uses: github/codeql-action/init@54f647b7e1bb85c95cddabcd46b0c578ec92bc1a # v4.36.3
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
-
-      - name: Build (Rust)
-        if: matrix.language == 'rust'
-        run: cargo build --target wasm32-unknown-unknown
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@54f647b7e1bb85c95cddabcd46b0c578ec92bc1a # v4.36.3
