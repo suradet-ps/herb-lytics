@@ -1,141 +1,141 @@
 # Herblytics
 
-![CI](https://img.shields.io/badge/CI-Rust%20%2F%20Leptos-DEA584?style=flat-square)
-[![Rust](https://img.shields.io/badge/Rust-1.88+-000000?logo=rust)](https://www.rust-lang.org/)
-[![Leptos](https://img.shields.io/badge/Leptos-0.8-4FC08D)](https://leptos.dev/)
-[![Trunk](https://img.shields.io/badge/Trunk-0.21-646CFF)](https://trunkrs.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-
-> **A data visualization dashboard for tracking and analyzing the procurement value of herbal medicines at Sabot Hospital.**
-
-This application provides actionable insights into purchasing trends, helping hospital staff and administrators identify key metrics such as total annual purchase value and top-performing herbal products.
-
-The frontend is compiled to **WebAssembly** with [Leptos](https://leptos.dev) (CSR) and bundled by [Trunk](https://trunkrs.dev). See [`MIGRATION.md`](./MIGRATION.md) for the full Vue → Rust migration guide.
-
----
-
-## Features
-
-### Data Visualization
-
-- **Interactive Charts**: A self-contained **SVG** bar chart (no JS charting dependency) shows the top 10 herbal medicines by total purchase value.
-- **Dynamic Summaries**: Summary cards displaying high-level metrics for the selected Thai fiscal year.
-
-### Core Stack
-
-- **[Rust 1.88+](https://www.rust-lang.org/)** (edition 2024) compiled to `wasm32-unknown-unknown`.
-- **[Leptos 0.8](https://leptos.dev/)** in CSR mode — `#[component]` functions instead of Vue SFCs.
-- **[Trunk](https://trunkrs.dev/)** as the bundler/dev server (replaces Vite).
-- **[Tailwind CSS 4](https://tailwindcss.com/)**: compiled to plain CSS via the CLI; class names are scanned from `src/**/*.rs`.
-
-### Architecture
-
-- **OnceLock store**: a `Copy` struct of `RwSignal`s (`stores/dashboard.rs`) replaces Pinia.
-- **Google Apps Script backend**: a lightweight, maintenance-free backend serving data via `?path=getHerbSummary&year={year}`.
-- **`serde` validation**: the API envelope (`{ status, message?, data? }`) is parsed and validated in `core/api.rs`, replacing Zod.
-
----
-
-## Prerequisites
-
-| Requirement | Version | Note |
-| :---------- | :------ | :-- |
-| **Rust**    | `1.88+` | With the `wasm32-unknown-unknown` target (`rustup target add wasm32-unknown-unknown`). |
-| **Trunk**   | `0.21+` | `cargo install trunk --locked`. |
-| **Bun**     | `1.0+`  | Only used to compile Tailwind CSS (lockfile present). |
-
----
-
-## Getting Started
-
-```bash
-# 1. Clone
-git clone https://github.com/suradet-ps/herb-lytics.git
-cd herb-lytics
-
-# 2. Compile Tailwind CSS (watches src/**/*.rs in dev)
-bun install
-bun run watch:css      # or: make watch
-
-# 3. Start the dev server (in another terminal)
-make dev               # runs tailwind --watch + trunk serve
-# or simply:
-trunk serve
 ```
-
-The app is served at `http://127.0.0.1:3000/`.
-
-### Pointing at the API
-
-The Google Apps Script URL is read at build time from `GOOGLE_API_URL`:
-
-```bash
-GOOGLE_API_URL="https://script.google.com/macros/s/XXXX/exec" trunk serve
-```
-
-For local development without rebuilding, set the `herb_lytics_api_url`
-key in `localStorage` from the browser console.
-
----
-
-## Available Scripts
-
-| Command              | Description |
-| :------------------- | :---------- |
-| `make dev`           | Tailwind watch + `trunk serve`. |
-| `make build`         | `bun run build:css` then `trunk build --release`. |
-| `make check`         | `cargo check --target wasm32-unknown-unknown`. |
-| `make clippy`        | `cargo clippy` (wasm) with correctness/suspicious denied. |
-| `make fmt`           | `cargo fmt --all --check`. |
-| `make test`          | `cargo test --lib`. |
-
----
-
-## Project Structure
-
-```text
-.
-├── src/
-│   ├── core/           # Pure logic: error, config, types, api, time, utils
-│   ├── stores/         # OnceLock singleton state (dashboard)
-│   ├── components/      # Leptos #[component]s (layout, cards, chart, table)
-│   ├── views/          # Page-level view (dashboard)
-│   ├── app.rs          # Root component + <meta> context
-│   └── lib.rs          # wasm-bindgen entry point
-├── public/
-│   └── styles/         # Tailwind-generated main.css (git-ignored, built from tailwind.css)
-├── tailwind.css        # Theme tokens + @source "./src/**/*.rs"
-├── Cargo.toml          # Leptos 0.8 CSR deps
-├── Trunk.toml          # Trunk config
-├── rust-toolchain.toml # stable + wasm32 target
-├── Makefile            # dev / build / check wrappers
-└── vercel.json         # Static SPA deploy (dist/)
+██╗  ██╗███████╗██████╗ ██████╗ ██╗     ██╗   ██╗████████╗██╗ ██████╗ ██████╗
+██║  ██║██╔════╝██╔══██╗██╔══██╗██║     ╚██╗ ██╔╝╚══██╔══╝██║██╔════╝██╔════╝
+███████║█████╗  ██████╔╝██████╔╝██║      ╚████╔╝    ██║   ██║██║     ███████╗
+██║  ██║██╔══╝  ██╔══██╗██╔══██╗██║       ╚═══╝     ██║   ██║██║     ╚════██║
+██║  ██║███████╗██║  ██║██████╔╝███████╗  ██╗       ██║   ██║╚██████╗██████╔╝
+╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝╚══════╝  ╚═╝   ╚═╝╚═╝ ╚═════╝╚═════╝
 ```
 
 ---
 
-## Deployment
+## ◆ PULSE
 
-### Vercel (static SPA)
+A purchasing decision deserves a number, not a hunch. Herblytics is the
+dashboard that turns herbal medicine procurement at Sabot Hospital into
+one Thai fiscal year of visible truth: total annual purchase value,
+the top ten products, and the trends that a budget meeting actually
+needs. Compiled to WASM with Leptos, drawn as self-contained SVG with no
+charting library in sight, served by a Google Apps Script that costs
+nothing to maintain - the insight is the product, the plumbing is
+boring on purpose.
 
-- **Build Command**: `bun install --frozen-lockfile && bun run build:css && rustup target add wasm32-unknown-unknown && cargo install trunk --locked && trunk build --release`
-- **Output Directory**: `dist`
-- **Environment Variable**: set `GOOGLE_API_URL` (or `VITE_GOOGLE_API_URL`) as a build-time var so it is baked into the WASM. The Apps Script `/exec` endpoint issues a 302 redirect to `script.googleusercontent.com`; the CSP already allows both hosts.
-- Deep links use an SPA rewrite to `index.html`; `.wasm` is served as `application/wasm`.
+| v1.1.17 ▣ | SVG chart ▣ | Fiscal year ▣ | Apps Script ▣ |
+|---|---|---|---|
+
+*The dashboard - summary, ranking, trends - is sealed and shipping.*
+
+> Built with Rust 2024 + Leptos 0.8, bundled by Trunk, styled by
+> Tailwind 4, answered by one Google Apps Script endpoint.
+>
+> **suradet-ps**, artifact keeper
 
 ---
 
-## Contributing
+## ◆ IGNITION
 
-1. **Fork** the repository.
-2. **Create** a feature branch: `git checkout -b feat/my-feature`.
-3. **Commit** your changes: `git commit -m "feat: add amazing feature"`.
-4. **Push** to the branch: `git push origin feat/my-feature`.
-5. **Open** a Pull Request.
+Two terminals, one API key.
+
+```
+⟫ bun install
+⟫ make dev
+```
+
+Tailwind watches `src/**/*.rs`; Trunk serves on
+[http://127.0.0.1:3000](http://127.0.0.1:3000).
+
+Point at the data: the Apps Script URL is baked in at build time -
+
+```
+⟫ GOOGLE_API_URL="https://script.google.com/macros/s/XXXX/exec" trunk serve
+```
+
+or, without rebuilding, set `herb_lytics_api_url` in the browser
+console's `localStorage`.
+
+<details>
+<summary>Prerequisites</summary>
+
+| Tool | Version | Note |
+|---|---|---|
+| Rust | 1.88+ | with the `wasm32-unknown-unknown` target |
+| Trunk | 0.21+ | `cargo install trunk --locked` |
+| Bun | 1.0+ | compiles Tailwind CSS only |
+
+</details>
 
 ---
 
-## License
+## ◆ ANATOMY
 
-This project is licensed under the [MIT License](LICENSE).
+One screen, four honest parts, no charting dependency.
+
+- **Summarizes** - the summary cards state the fiscal year at a glance:
+  total purchase value and the metrics a pharmacy budget lives by.
+- **Ranks** - a self-contained SVG bar chart draws the top ten herbal
+  medicines by purchase value - pure markup, no JS charting library,
+  nothing to break between releases.
+- **Answers** - the Google Apps Script backend serves one question per
+  year (`?path=getHerbSummary&year={year}`), and the `{ status, data }`
+  envelope is parsed and validated by `serde` in `core/api.rs` - no
+  silent shape drift from the spreadsheet side.
+- **Remembers** - an `OnceLock` store of `RwSignal`s replaces Pinia: a
+  `Copy` struct of signals is the whole state, with no store ceremony.
+- **Migrates** - the road from Vue to Rust is documented end to end in
+  `MIGRATION.md`; every replacement (Pinia -> OnceLock, Zod -> serde,
+  Vite -> Trunk) is named and justified.
+
+---
+
+## ◆ RITUALS
+
+**The core ceremony** - the quarterly budget glance:
+
+1. Open the dashboard. The fiscal year's summary answers first.
+2. Read the top ten - the bar chart tells the ranking without a legend
+   lecture.
+3. Switch the year; the same question, the same shape, a new answer.
+4. Decide with a number in hand - the dashboard is done; the meeting
+   can begin.
+
+**The ceremony of the envelope** - the API either answers or says it
+cannot: `status`, `message`, `data`. A malformed payload is caught at
+the boundary, never rendered as a plausible-looking lie.
+
+**The ceremony of restraint** - no charting library, no state
+framework, no server to feed. Each dependency carries its weight or is
+replaced - the migration log proves the discipline.
+
+---
+
+## ◆ ECHOES
+
+**Where this artifact is heading**
+
+```
+summarize ▸ fiscal-year summary cards ─────────────────────────────── ▸ sealed
+rank      ▸ top-10 SVG bar chart, self-contained ──────────────────── ▸ sealed
+answer    ▸ Apps Script endpoint + serde-validated envelope ────────── ▸ sealed
+migrate   ▸ Vue-to-Rust path documented in MIGRATION.md ────────────── ▸ sealed
+```
+
+**Raising the artifact** - the envelope and types live in `core/`; the
+CSS pipeline in `tailwind.css`; the version history in `CHANGELOG.md`.
+Gates before any PR: `make fmt`, `make clippy`, `make test`. Open an
+issue first to discuss a change.
+
+**Status** - CI runs the Rust + Leptos gates on every push.
+[Watch the gates](.github/workflows).
+
+---
+
+```
+  ─────────────────────────────────────────
+   The top ten is not a ranking.
+   It is the budget speaking in numbers.
+  ─────────────────────────────────────────
+```
+
+Licensed under the [MIT License](LICENSE).
