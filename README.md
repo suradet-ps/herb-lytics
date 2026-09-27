@@ -1,13 +1,12 @@
 # Herblytics
 
-```
-██╗  ██╗███████╗██████╗ ██████╗ ██╗     ██╗   ██╗████████╗██╗ ██████╗ ██████╗
-██║  ██║██╔════╝██╔══██╗██╔══██╗██║     ╚██╗ ██╔╝╚══██╔══╝██║██╔════╝██╔════╝
-███████║█████╗  ██████╔╝██████╔╝██║      ╚████╔╝    ██║   ██║██║     ███████╗
-██║  ██║██╔══╝  ██╔══██╗██╔══██╗██║       ╚═══╝     ██║   ██║██║     ╚════██║
-██║  ██║███████╗██║  ██║██████╔╝███████╗  ██╗       ██║   ██║╚██████╗██████╔╝
-╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝╚══════╝  ╚═╝   ╚═╝╚═╝ ╚═════╝╚═════╝
-```
+[![CI](https://github.com/suradet-ps/herb-lytics/actions/workflows/ci.yml/badge.svg)](https://github.com/suradet-ps/herb-lytics/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/suradet-ps/herb-lytics/actions/workflows/codeql.yml/badge.svg)](https://github.com/suradet-ps/herb-lytics/actions/workflows/codeql.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Rust: stable](https://img.shields.io/badge/rust-stable-orange.svg?logo=rust&logoColor=white)](https://www.rust-lang.org/)
+[![Leptos v0.8](https://img.shields.io/badge/Leptos-v0.8-blue.svg)](https://leptos.dev)
+[![Tailwind v4](https://img.shields.io/badge/Tailwind-v4-06B6D4.svg?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/suradet-ps/herb-lytics/issues)
 
 ---
 
